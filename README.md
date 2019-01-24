@@ -23,7 +23,7 @@ class MyBeautifulClass(GeoTools):
         super().__init__()
     
     def run(self):
-        # call your function
+        # call GeoTools functions
         self.remove_z_geom(my_shapely_geometry)
 
 ```
