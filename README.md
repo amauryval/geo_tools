@@ -14,7 +14,7 @@ conda env create -f geo_tools_conda_env.yml
 
 In your script.py:
 
-```
+```python
 from geotools.core import GeoTools
 
 class MyBeautifulClass(GeoTools):
