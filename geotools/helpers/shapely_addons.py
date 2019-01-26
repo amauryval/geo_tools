@@ -196,9 +196,9 @@ class ShapelyAddons:
 
         return new_geometry
 
-    def create_point_on_lines_feature(self, geometry, ratio=0.5):
+    def create_point_along_line_features(self, geometry, ratio=0.5):
         """
-        create_point_on_lines_feature
+        create_point_along_line_features
 
         :type geometry: shapely.geometry.*
         :type ratio: float
@@ -216,20 +216,20 @@ class ShapelyAddons:
             geometries = self.convert_geometry_to_simple_linestrings(geometry).geoms
             new_geometries = []
             for geometry in geometries:
-                points = self.create_point_on_lines_feature(geometry).geoms
+                points = self.create_point_along_line_features(geometry).geoms
                 new_geometries.extend(points)
 
         elif isinstance(geometry, (Polygon, MultiLineString, MultiPolygon, GeometryCollection)):
             geometries = self.convert_geometry_to_simple_linestrings(geometry).geoms
             for geom in geometries:
-                points = self.create_point_on_lines_feature(geom).geoms
+                points = self.create_point_along_line_features(geom).geoms
                 new_geometries.extend(points)
 
         return MultiPoint(new_geometries)
 
-    def cut_lines_features_at_points(self, geometry, ratio=0.5, points=None):
+    def cut_line_features_at_points(self, geometry, ratio=0.5, points=None):
         """
-        cut_lines_features_at_points
+        cut_line_features_at_points
 
         :type geometry: shapely.geometry.*
         :type ratio: float, default: 0.5
@@ -267,7 +267,7 @@ class ShapelyAddons:
         elif isinstance(geometry, MultiLineString):
             geometries = geometry.geoms
             for geometry in geometries:
-                lines = list(self.cut_lines_features_at_points(geometry, ratio, points).geoms)
+                lines = list(self.cut_line_features_at_points(geometry, ratio, points).geoms)
                 new_geometries.extend(lines)
 
         elif isinstance(geometry, (Point, MultiPoint)):
@@ -276,14 +276,14 @@ class ShapelyAddons:
         else:
             geom_lines = self.convert_geometry_to_simple_linestrings(geometry).geoms
             for geom in geom_lines:
-                lines = self.cut_lines_features_at_points(geom, ratio, points).geoms
+                lines = self.cut_line_features_at_points(geom, ratio, points).geoms
                 new_geometries.extend(lines)
 
         return MultiLineString(new_geometries)
 
-    def get_geometry_coords(self, geometry, coord_name='xy', is_processing=False):
+    def geometry_2_bokeh_format(self, geometry, coord_name='xy', is_processing=False):
         """
-        get_geometry_coords
+        geometry_2_bokeh_format
         Used for bokeh library
 
         :type geometry: shapely.geometry.*
@@ -303,8 +303,8 @@ class ShapelyAddons:
                 coord_values = next(iter(geometry.coords))
 
         elif isinstance(geometry, Polygon):
-            exterior = [self.get_geometry_coords(geometry.exterior, coord_name)]
-            interiors = self.get_geometry_coords(geometry.interiors, coord_name)
+            exterior = [self.geometry_2_bokeh_format(geometry.exterior, coord_name)]
+            interiors = self.geometry_2_bokeh_format(geometry.interiors, coord_name)
             coord_values = [
                 exterior,
                 interiors
@@ -318,18 +318,18 @@ class ShapelyAddons:
 
         elif isinstance(geometry, (LinearRing, LineString)):
             coord_values = [
-                self.get_geometry_coords(Point(feat), coord_name)
+                self.geometry_2_bokeh_format(Point(feat), coord_name)
                 for feat in geometry.coords
             ]
 
         if isinstance(geometry, (MultiPoint, MultiPolygon, MultiLineString, GeometryCollection)):
             for feat in geometry.geoms:
-                coord_values.append(self.get_geometry_coords(feat, coord_name, True))
+                coord_values.append(self.geometry_2_bokeh_format(feat, coord_name, True))
 
         if isinstance(geometry, InteriorRingSequence):
             #compute holes
             coord_values.extend([
-                self.get_geometry_coords(feat, coord_name)
+                self.geometry_2_bokeh_format(feat, coord_name)
                 for feat in geometry
             ])
 
@@ -405,7 +405,7 @@ class ShapelyAddons:
         return MultiPolygon(new_geometries)
 
 
-    def _get_polygon_side_from_line(self, geometry, distance, side):
+    def _buffer_side_on_line(self, geometry, distance, side):
         """
 
         :type geometry: shapely.geometry.LineString or MultiLineString
@@ -426,7 +426,7 @@ class ShapelyAddons:
 
         elif isinstance(geometry, MultiLineString):
             polygon = MultiPolygon([
-                self._get_polygon_side_from_line(geom, distance, side)
+                self._buffer_side_on_line(geom, distance, side)
                 for geom in geometry.geoms
             ])
 

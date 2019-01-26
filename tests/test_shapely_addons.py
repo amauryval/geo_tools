@@ -39,26 +39,26 @@ def geometry_drop_duplicates(geometry):
     return geom.geoms
 
 def geometry_create_point_on_lines_feature(geometry):
-    geom = Core().create_point_on_lines_feature(geometry)
+    geom = Core().create_point_along_line_features(geometry)
     assert isinstance(geom, MultiPoint)
     return geom.geoms
 
 def geometry_cut_lines_features_at_points_ratio(geometry):
-    geom = Core().cut_lines_features_at_points(geometry, ratio=0.5)
+    geom = Core().cut_line_features_at_points(geometry, ratio=0.5)
     assert isinstance(geom, MultiLineString)
     return geom.geoms
 
 def geometry_cut_lines_features_at_points_from_points(geometry):
     # geom = Core().ogr_reprojection(geometry, 4326, 2154)
-    points = Core().create_point_on_lines_feature(geometry)
-    geom = Core().cut_lines_features_at_points(geometry, ratio=None, points=points)
+    points = Core().create_point_along_line_features(geometry)
+    geom = Core().cut_line_features_at_points(geometry, ratio=None, points=points)
     assert isinstance(geom, MultiLineString)
     return geom.geoms
 
 def geometry_get_geometry_coords(geometry):
-    x = Core().get_geometry_coords(geometry, 'x')
-    y = Core().get_geometry_coords(geometry, 'y')
-    xy = Core().get_geometry_coords(geometry, 'xy')
+    x = Core().geometry_2_bokeh_format(geometry, 'x')
+    y = Core().geometry_2_bokeh_format(geometry, 'y')
+    xy = Core().geometry_2_bokeh_format(geometry, 'xy')
     return x, y, xy
 
 def geometry_holes_computing(geometry):

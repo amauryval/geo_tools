@@ -16,8 +16,8 @@ class BokehCore(GeoTools):
 
     def _format_simple_feature(self, feature):
         return ColumnDataSource({
-            'x': self.get_geometry_coords(feature, 'x'),
-            'y': self.get_geometry_coords(feature, 'y')
+            'x': self.geometry_2_bokeh_format(feature, 'x'),
+            'y': self.geometry_2_bokeh_format(feature, 'y')
         })
 
     def add_multi_lines(self, feature, legend, color='blue', line_width=2):
