@@ -2,6 +2,18 @@
 
 Shapely geometry functions
 
+You can :
+* remove Z coordinates on your geometry
+* get crossroads, dead ends and section nodes from a MultiLinestring
+* convert your geometry to LineString (only 2 coordinates)
+* convert your geometry to points
+* Drop duplicate geometries
+* Create points along line features by choosing a ratio
+* Cut line features at specifics point
+* convert geometry to bokeh format
+* Fill holes on Polygon, MultiPolygon, and GeometryCollection
+* Convert (Multi)Polygon holes to MultiPolygons
+* Compute side buffer on LineString and MultiLineString
 
 ## Installation
 
@@ -27,6 +39,13 @@ class MyBeautifulClass(GeoTools):
         self.remove_z_geom(my_shapely_geometry)
 
 ```
+
+## Check examples
+```
+jupyter notebook
+```
+
+Then check Jupyter Notebook in 'examples' directory
 
 ## Run tests
 ```
