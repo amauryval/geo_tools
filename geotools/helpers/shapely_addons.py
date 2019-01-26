@@ -301,6 +301,8 @@ class ShapelyAddons:
                 coord_values = getattr(geometry, coord_name)
             else:
                 coord_values = next(iter(geometry.coords))
+            if not is_processing:
+                coord_values = [coord_values]
 
         elif isinstance(geometry, Polygon):
             exterior = [self.geometry_2_bokeh_format(geometry.exterior, coord_name)]
@@ -318,9 +320,11 @@ class ShapelyAddons:
 
         elif isinstance(geometry, (LinearRing, LineString)):
             coord_values = [
-                self.geometry_2_bokeh_format(Point(feat), coord_name)
+                self.geometry_2_bokeh_format(Point(feat), coord_name, True)
                 for feat in geometry.coords
             ]
+            # if not is_processing:
+            #     coord_values = [coord_values]
 
         if isinstance(geometry, (MultiPoint, MultiPolygon, MultiLineString, GeometryCollection)):
             for feat in geometry.geoms:
