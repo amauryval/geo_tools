@@ -281,23 +281,26 @@ class ShapelyAddons:
 
         return MultiLineString(new_geometries)
 
-    def get_geometry_coords(self, geometry, coord_name='xy'):
+    def get_geometry_coords(self, geometry, coord_name='xy', is_processing=False):
         """
         get_geometry_coords
+        Used for bokeh library
 
         :type geometry: shapely.geometry.*
         :type coord_name: str, default: xy (x or y)
+        :type is_processing: boolean, default: False
         :return: float or list of tuple
         """
+
         self.__assert_all_geometry_type(geometry)
 
         coord_values = []
 
         if isinstance(geometry, Point):
             if coord_name != 'xy':
-                coord_values = [getattr(geometry, coord_name)]
+                coord_values = getattr(geometry, coord_name)
             else:
-                coord_values = [next(iter(geometry.coords))]
+                coord_values = next(iter(geometry.coords))
 
         elif isinstance(geometry, Polygon):
             exterior = [self.get_geometry_coords(geometry.exterior, coord_name)]
@@ -310,6 +313,8 @@ class ShapelyAddons:
                 coord_values = [
                     exterior
                 ]
+            if not is_processing:
+                coord_values = [coord_values]
 
         elif isinstance(geometry, (LinearRing, LineString)):
             coord_values = [
@@ -319,7 +324,7 @@ class ShapelyAddons:
 
         if isinstance(geometry, (MultiPoint, MultiPolygon, MultiLineString, GeometryCollection)):
             for feat in geometry.geoms:
-                coord_values.append(self.get_geometry_coords(feat, coord_name))
+                coord_values.append(self.get_geometry_coords(feat, coord_name, True))
 
         if isinstance(geometry, InteriorRingSequence):
             #compute holes
