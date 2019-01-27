@@ -10,7 +10,7 @@ You can :
 * Drop duplicate geometries
 * Create points along line features by choosing a ratio
 * Cut line features at specifics point
-* convert geometry to bokeh format
+* convert geometry to bokeh format (use geopandas and apply method)
 * Fill holes on Polygon, MultiPolygon, and GeometryCollection
 * Convert (Multi)Polygon holes to MultiPolygons
 * Compute side buffer on LineString and MultiLineString
