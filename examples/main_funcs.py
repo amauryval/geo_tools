@@ -20,8 +20,14 @@ class BokehCore(GeoTools):
             'y': self.geometry_2_bokeh_format(feature, 'y')
         })
 
+    def _format_multiple_feature(self, feature):
+        return ColumnDataSource({
+            'x': [self.geometry_2_bokeh_format(feature, 'x')],
+            'y': [self.geometry_2_bokeh_format(feature, 'y')]
+        })
+
     def add_multi_lines(self, feature, legend, color='blue', line_width=2):
-        self._plot.multi_line(xs="x", ys="y", legend=legend, line_color=color, line_width=line_width, source=self._format_simple_feature(feature))
+        self._plot.multi_line(xs="x", ys="y", legend=legend, line_color=color, line_width=line_width, source=self._format_multiple_feature(feature))
         self._bokeh_global_params()
 
     def add_lines(self, features, legend, color='blue', line_width=2):
@@ -29,12 +35,13 @@ class BokehCore(GeoTools):
             self._plot.line(x="x", y="y", legend=f'{legend}_{enum}', line_color=color, line_width=line_width, source=self._format_simple_feature(feature))
         self._bokeh_global_params()
 
-    def add_points(self, feature, legend, fill_color='red', size=4):
-        self._plot.circle(x="x", y="y", color=fill_color, size=size, legend=legend, source=self._format_simple_feature(feature))
+    def add_points(self, features, legend, fill_color='red', size=4):
+        for enum, feature in enumerate(features):
+            self._plot.circle(x="x", y="y", color=fill_color, size=size, legend=f'{legend}_{enum}', source=self._format_multiple_feature(feature))
         self._bokeh_global_params()
 
     def add_polygons(self, feature, legend, fill_color='red'):
-        self._plot.multi_polygons(xs="x", ys="y", legend=legend, fill_color=fill_color, source=self._format_simple_feature(feature))
+        self._plot.multi_polygons(xs="x", ys="y", legend=legend, fill_color=fill_color, source=self._format_multiple_feature(feature))
         self._bokeh_global_params()
 
 

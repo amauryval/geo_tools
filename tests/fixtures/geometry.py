@@ -53,6 +53,7 @@ def linestring_not_simple():
 
 @pytest.fixture
 def multilinestring():
+    # TODO not a really a good multilinestring, change it
     return MultiLineString(lines=[
         wkt_loads(wkt_linestring_a),
         wkt_loads(wkt_linestring_b),

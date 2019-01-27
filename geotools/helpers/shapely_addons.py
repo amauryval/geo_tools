@@ -21,6 +21,10 @@ from collections import Counter
 from collections import OrderedDict
 
 
+class GeometryTypeError(Exception):
+    pass
+
+
 class ShapelyAddons:
     """
     Class : ShapelyHelper
@@ -80,6 +84,7 @@ class ShapelyAddons:
             return type(geometry)(new_geometries)
 
     def get_intersection_nodes(self, lines, mode='crossroads'):
+        #TODO CHANGE INPUT : should not be MultiLineString but a list of LineString
         """
         get_intersection_nodes
         compute nodes from MultiLineString:
@@ -281,14 +286,13 @@ class ShapelyAddons:
 
         return MultiLineString(new_geometries)
 
-    def geometry_2_bokeh_format(self, geometry, coord_name='xy', is_processing=False):
+    def geometry_2_bokeh_format(self, geometry, coord_name='xy', input_is_a_point=True):
         """
         geometry_2_bokeh_format
         Used for bokeh library
 
         :type geometry: shapely.geometry.*
         :type coord_name: str, default: xy (x or y)
-        :type is_processing: boolean, default: False
         :return: float or list of tuple
         """
 
@@ -301,8 +305,6 @@ class ShapelyAddons:
                 coord_values = getattr(geometry, coord_name)
             else:
                 coord_values = next(iter(geometry.coords))
-            if not is_processing:
-                coord_values = [coord_values]
 
         elif isinstance(geometry, Polygon):
             exterior = [self.geometry_2_bokeh_format(geometry.exterior, coord_name)]
@@ -315,20 +317,19 @@ class ShapelyAddons:
                 coord_values = [
                     exterior
                 ]
-            if not is_processing:
-                coord_values = [coord_values]
 
         elif isinstance(geometry, (LinearRing, LineString)):
             coord_values = [
-                self.geometry_2_bokeh_format(Point(feat), coord_name, True)
+                self.geometry_2_bokeh_format(Point(feat), coord_name)
                 for feat in geometry.coords
             ]
-            # if not is_processing:
-            #     coord_values = [coord_values]
 
-        if isinstance(geometry, (MultiPoint, MultiPolygon, MultiLineString, GeometryCollection)):
+        if isinstance(geometry, (MultiPoint, MultiPolygon, MultiLineString)):
             for feat in geometry.geoms:
-                coord_values.append(self.geometry_2_bokeh_format(feat, coord_name, True))
+                if isinstance(feat, Point):
+                    coord_values = self.geometry_2_bokeh_format(feat, coord_name)
+                else:
+                    coord_values.extend(self.geometry_2_bokeh_format(feat, coord_name))
 
         if isinstance(geometry, InteriorRingSequence):
             #compute holes
@@ -336,6 +337,9 @@ class ShapelyAddons:
                 self.geometry_2_bokeh_format(feat, coord_name)
                 for feat in geometry
             ])
+
+        if isinstance(geometry, GeometryCollection):
+            raise GeometryTypeError('no interest to handle GeometryCollection')
 
         return coord_values
 

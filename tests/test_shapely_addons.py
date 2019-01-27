@@ -1,6 +1,9 @@
 from shapely.geometry import LineString, MultiPoint, Point, MultiLineString, MultiPolygon, Polygon, GeometryCollection
 
-from conftest import GeoLibTestInstance as Core
+from geotools.helpers.shapely_addons import GeometryTypeError
+
+from conftest import GeoLibTestInstance as core_test
+
 import pytest
 
 #######################################
@@ -8,12 +11,12 @@ import pytest
 
 
 def geom_3d_to_2d_geometry(geometry):
-    geom = Core().remove_z_geom(geometry)
+    geom = core_test().remove_z_geom(geometry)
     assert not geom.has_z
 
 
 def geometry_to_points(geometry, drop_duplicates):
-    geom = Core().convert_geometry_to_points(geometry, drop_duplicates)
+    geom = core_test().convert_geometry_to_points(geometry, drop_duplicates)
     assert isinstance(geom, MultiPoint)
     return geom.geoms
 
@@ -24,46 +27,46 @@ def count_values_by_type(values, type_to_check):
 
 
 def geometry_to_linestrings(geometry):
-    geom = Core().convert_geometry_to_simple_linestrings(geometry)
+    geom = core_test().convert_geometry_to_simple_linestrings(geometry)
     assert isinstance(geom, MultiLineString)
     return geom.geoms
 
 def geometry_to_intersection_nodes(geometry, mode):
-    geom = Core().get_intersection_nodes(geometry, mode)
+    geom = core_test().get_intersection_nodes(geometry, mode)
     assert isinstance(geom, MultiPoint)
     return geom.geoms
 
 def geometry_drop_duplicates(geometry):
-    geom = Core().drop_duplicates_geometry(geometry)
+    geom = core_test().drop_duplicates_geometry(geometry)
     assert isinstance(geom, type(geometry))
     return geom.geoms
 
 def geometry_create_point_on_lines_feature(geometry):
-    geom = Core().create_point_along_line_features(geometry)
+    geom = core_test().create_point_along_line_features(geometry)
     assert isinstance(geom, MultiPoint)
     return geom.geoms
 
 def geometry_cut_lines_features_at_points_ratio(geometry):
-    geom = Core().cut_line_features_at_points(geometry, ratio=0.5)
+    geom = core_test().cut_line_features_at_points(geometry, ratio=0.5)
     assert isinstance(geom, MultiLineString)
     return geom.geoms
 
 def geometry_cut_lines_features_at_points_from_points(geometry):
     # geom = Core().ogr_reprojection(geometry, 4326, 2154)
-    points = Core().create_point_along_line_features(geometry)
-    geom = Core().cut_line_features_at_points(geometry, ratio=None, points=points)
+    points = core_test().create_point_along_line_features(geometry)
+    geom = core_test().cut_line_features_at_points(geometry, ratio=None, points=points)
     assert isinstance(geom, MultiLineString)
     return geom.geoms
 
 def geometry_get_geometry_coords(geometry):
-    x = Core().geometry_2_bokeh_format(geometry, 'x')
-    y = Core().geometry_2_bokeh_format(geometry, 'y')
-    xy = Core().geometry_2_bokeh_format(geometry, 'xy')
+    x = core_test().geometry_2_bokeh_format(geometry, 'x')
+    y = core_test().geometry_2_bokeh_format(geometry, 'y')
+    xy = core_test().geometry_2_bokeh_format(geometry, 'xy')
     return x, y, xy
 
 def geometry_holes_computing(geometry):
-    filled = Core().fill_holes(geometry, 101)
-    catched = Core().get_holes(geometry, 100)
+    filled = core_test().fill_holes(geometry, 101)
+    catched = core_test().get_holes(geometry, 100)
     return filled, catched
 
 #######################################
@@ -408,12 +411,10 @@ def test_geometry_get_geometry_coords_from_points(point):
 def test_geometry_get_geometry_coords_from_multipoint(multipoint):
     x, y, xy = geometry_get_geometry_coords(multipoint)
     print(x, y, xy)
-    assert isinstance(x, list)
-    assert len(x) == 2
-    assert isinstance(y, list)
-    assert len(y) == 2
-    assert isinstance(xy, list)
-    assert len(xy) == 2
+    assert isinstance(x, float)
+    assert isinstance(y, float)
+    assert isinstance(xy, tuple)
+    assert len(xy) == 3
 
 def test_geometry_get_geometry_coords_from_linestring(linestring):
     x, y, xy = geometry_get_geometry_coords(linestring)
@@ -424,23 +425,31 @@ def test_geometry_get_geometry_coords_from_linestring(linestring):
     assert isinstance(xy, list)
     assert len(xy) == 2
 
+
 def test_geometry_get_geometry_coords_from_multilinestring(multilinestring):
     x, y, xy = geometry_get_geometry_coords(multilinestring)
     assert isinstance(x, list)
-    assert len(x) == 7
+    assert len(x) == 14
     assert isinstance(y, list)
-    assert len(y) == 7
+    assert len(y) == 14
     assert isinstance(xy, list)
-    assert len(xy) == 7
+    assert len(xy) == 14
+
 
 def test_geometry_get_geometry_coords_from_polygon(polygon):
     x, y, xy = geometry_get_geometry_coords(polygon)
     assert isinstance(x[0][0], list)
-    assert len(x[0][0][0]) == 5
+    assert isinstance(x[0][0][0], float)
+    assert len(x[0][0]) == 5
     assert isinstance(y[0][0], list)
-    assert len(y[0][0][0]) == 5
+    assert isinstance(x[0][0][0], float)
+    assert len(y[0][0]) == 5
     assert isinstance(xy, list)
-    assert len(xy[0][0][0]) == 5
+    assert len(xy[0][0]) == 5
+    assert isinstance(xy[0][0][0], tuple)
+    assert len(xy[0][0][0]) == 3
+    assert isinstance(xy[0][0][0][0], float)
+
 
 def test_geometry_get_geometry_coords_from_multipolygon(multipolygon):
     x, y, xy = geometry_get_geometry_coords(multipolygon)
@@ -451,32 +460,36 @@ def test_geometry_get_geometry_coords_from_multipolygon(multipolygon):
     assert isinstance(xy, list)
     assert len(xy) == 2
 
+
 def test_geometry_get_geometry_coords_from_polygon_with_holes(polygon_with_holes):
     x, y, xy = geometry_get_geometry_coords(polygon_with_holes)
     assert isinstance(x[0][0], list)
-    assert len(x[0][0][0]) == 5
+    assert len(x[0][0]) == 5
+    assert isinstance(x[0][0][0], float)
     assert isinstance(y[0][0], list)
-    assert len(y[0][0][0]) == 5
+    assert len(y[0][0]) == 5
+    assert isinstance(y[0][0][0], float)
     assert isinstance(xy, list)
-    assert len(xy[0][0][0]) == 5
+    assert len(xy[0][0][0]) == 3
+    assert isinstance(xy[0][0][0][0], float)
+
 
 def test_geometry_get_geometry_coords_from_multipolygon_with_holes(multipolygon_with_holes):
     x, y, xy = geometry_get_geometry_coords(multipolygon_with_holes)
-    assert isinstance(x, list)
-    assert len(x) == 1
-    assert isinstance(y, list)
-    assert len(y) == 1
-    assert isinstance(xy, list)
-    assert len(xy) == 1
+    assert isinstance(x[0], list)
+    assert len(x[0]) == 1
+    assert isinstance(y[0], list)
+    assert len(y[0]) == 1
+    assert isinstance(xy[0], list)
+    assert len(xy[0]) == 1
+
 
 def test_geometry_get_geometry_coords_from_geometrycollection(geometrycollection):
-    x, y, xy = geometry_get_geometry_coords(geometrycollection)
-    assert isinstance(x, list)
-    assert len(x) == 8
-    assert isinstance(y, list)
-    assert len(y) == 8
-    assert isinstance(xy, list)
-    assert len(xy) == 8
+
+    with pytest.raises(GeometryTypeError) as exception_info:
+        x, y, xy = geometry_get_geometry_coords(geometrycollection)
+    assert 'no interest to handle GeometryCollection' in str(exception_info.value)
+
 
 def test_geometry_holes_computing_point(point):
     try:
@@ -487,11 +500,13 @@ def test_geometry_holes_computing_point(point):
     assert isinstance(catched, MultiPolygon)
     assert catched.is_empty
 
+
 def test_geometry_holes_computing_multipoint(multipoint):
     filled, catched = geometry_holes_computing(multipoint)
     assert filled is None
     assert isinstance(catched, MultiPolygon)
     assert catched.is_empty
+
 
 def test_geometry_holes_computing_polygon(polygon):
     filled, catched = geometry_holes_computing(polygon)
@@ -500,12 +515,14 @@ def test_geometry_holes_computing_polygon(polygon):
     assert isinstance(catched, MultiPolygon)
     assert catched.is_empty
 
+
 def test_geometry_holes_computing_polygon_with_holes(polygon_with_holes):
     filled, catched = geometry_holes_computing(polygon_with_holes)
     assert isinstance(filled, Polygon)
     assert not filled.is_empty
     assert isinstance(catched, MultiPolygon)
     assert not catched.is_empty
+
 
 def test_geometry_holes_computing_multipolygon(multipolygon):
     filled, catched = geometry_holes_computing(multipolygon)
@@ -514,12 +531,14 @@ def test_geometry_holes_computing_multipolygon(multipolygon):
     assert isinstance(catched, MultiPolygon)
     assert catched.is_empty
 
+
 def test_geometry_holes_computing_multipolygon_with_holes(multipolygon_with_holes):
     filled, catched = geometry_holes_computing(multipolygon_with_holes)
     assert isinstance(filled, MultiPolygon)
     assert not filled.is_empty
     assert isinstance(catched, MultiPolygon)
     assert not catched.is_empty
+
 
 def test_geometry_holes_computing_geometrycollection(geometrycollection):
     filled, catched = geometry_holes_computing(geometrycollection)
