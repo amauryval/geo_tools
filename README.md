@@ -1,6 +1,6 @@
 # geo_tools
 
-Shapely geometry functions
+## Shapely geometry functions
 
 You can :
 * remove Z coordinates on your geometry
@@ -14,6 +14,8 @@ You can :
 * Fill holes on Polygon, MultiPolygon, and GeometryCollection
 * Convert (Multi)Polygon holes to MultiPolygons
 * Compute side buffer on LineString and MultiLineString
+
+## More soon !
 
 ## Installation
 
