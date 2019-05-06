@@ -1,4 +1,4 @@
-# geo_tools [TODO]
+# geo_tools
 
 Shapely geometry functions
 
