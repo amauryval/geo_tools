@@ -27,7 +27,7 @@ class GeometryTypeError(Exception):
 
 class ShapelyAddons:
     """
-    Class : ShapelyHelper
+    Class : ShapelyAddons
     """
 
     @staticmethod
