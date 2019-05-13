@@ -11,5 +11,3 @@ class GeoLibTestInstance(GeoTools):
     def __init__(self):
         super().__init__()
 
-
-
