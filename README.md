@@ -1,6 +1,6 @@
 # geo_tools
 
-Shapely geometry functions
+##Shapely geometry functions
 
 You can :
 * remove Z coordinates on your geometry
@@ -15,14 +15,21 @@ You can :
 * Convert (Multi)Polygon holes to MultiPolygons
 * Compute side buffer on LineString and MultiLineString
 
-## Installation
+##Reprojection functions
+* reproject with ogr
+* reproject with pyproj
+
+
+### More soon !
+
+# Installation
 
 with anaconda3
 ```
 conda env create -f geo_tools_conda_env.yml
 ```
 
-## How to use it
+# How to use it
 
 In your script.py:
 
