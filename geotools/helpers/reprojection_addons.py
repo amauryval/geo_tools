@@ -1,3 +1,10 @@
+import pyproj
+from shapely.ops import transform
+from functools import partial
+
+from osgeo import ogr
+from osgeo import osr
+from shapely.wkt import loads
 
 
 class ReprojectionAddons:
@@ -5,7 +12,8 @@ class ReprojectionAddons:
     Class : ReprojectionAddons
     """
 
-    def is_from_and_to_epsg_are_equals(self, from_epsg, to_epsg):
+    @staticmethod
+    def is_from_and_to_epsg_are_equals(from_epsg, to_epsg):
 
         if from_epsg == to_epsg:
             print(f'from_epsg{from_epsg} and to_epsg{to_epsg} are equals: reprojection aborted!')
@@ -22,10 +30,6 @@ class ReprojectionAddons:
         :type to_epsg: int
         :rtype: shapely.geometry.*
         """
-
-        import pyproj
-        from shapely.ops import transform
-        from functools import partial
 
         if not self.is_from_and_to_epsg_are_equals(from_epsg, to_epsg):
             geometry = transform(
@@ -50,10 +54,6 @@ class ReprojectionAddons:
         :rtype: shapely.geometry.*
         """
 
-        from osgeo import ogr
-        from osgeo import osr
-        from shapely.wkt import loads
-
         if not self.is_from_and_to_epsg_are_equals(from_epsg, to_epsg):
             source_epsg = osr.SpatialReference()
             source_epsg.ImportFromEPSG(from_epsg)
@@ -61,11 +61,11 @@ class ReprojectionAddons:
             target_epsg = osr.SpatialReference()
             target_epsg.ImportFromEPSG(to_epsg)
 
-            transform = osr.CoordinateTransformation(source_epsg, target_epsg)
+            epsg_transform = osr.CoordinateTransformation(source_epsg, target_epsg)
             ogr_geom = ogr.CreateGeometryFromWkt(
                 geometry.wkt
             )
-            ogr_geom.Transform(transform)
+            ogr_geom.Transform(epsg_transform)
             geometry = loads(ogr_geom.ExportToWkt())
 
         return geometry
