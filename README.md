@@ -2,7 +2,6 @@
 
 ## Shapely geometry functions
 
-You can :
 * remove Z coordinates on your geometry
 * get crossroads, dead ends and section nodes from a MultiLinestring
 * convert your geometry to LineString (only 2 coordinates)
@@ -14,6 +13,11 @@ You can :
 * Fill holes on Polygon, MultiPolygon, and GeometryCollection
 * Convert (Multi)Polygon holes to MultiPolygons
 * Compute side buffer on LineString and MultiLineString
+
+## Reprojection functions
+
+* reproject with pyproj
+* reproject with ogr
 
 ## More soon !
 
