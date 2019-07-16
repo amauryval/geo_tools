@@ -1,5 +1,7 @@
 # geo_tools
 
+A geographic toolbox
+
 ## Shapely geometry functions
 
 * remove Z coordinates on your geometry
