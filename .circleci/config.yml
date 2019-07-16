@@ -23,6 +23,14 @@ jobs:
             - v1-dependencies-
 
       - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get install libgdal-dev
+            gdal-config
+            export CPLUS_INCLUDE_PATH=/usr/include/gdal
+            export C_INCLUDE_PATH=/usr/include/gdal
+
+      - run:
           name: install dependencies
           command: |
             python3 -m venv venv
