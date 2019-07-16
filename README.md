@@ -26,6 +26,7 @@
 with anaconda3
 ```
 conda env create -f geo_tools_conda_env.yml
+activate geo_tools
 ```
 
 ## How to use it
