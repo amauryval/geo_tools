@@ -18,13 +18,14 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            conda env create -f geo_tools_conda_env.yml
+            conda config --add channels conda-forge
+            conda config --set channel_priority strict
+            conda install --file requirements.txt
 
       # run tests!
       - run:
           name: run tests
           command: |
-            activate geo_tools
             python -m pytest tests
 
       - store_test_results:
