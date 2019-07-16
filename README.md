@@ -48,13 +48,17 @@ class MyBeautifulClass(GeoTools):
 ```
 
 ## Check examples
+
+Check Jupyter Notebook in 'examples' directory
+
+in your terminal Anaconda Prompt
 ```
 jupyter notebook
 ```
 
-Then check Jupyter Notebook in 'examples' directory
-
 ## Run tests
+
+in your terminal Anaconda Prompt
 ```
 python -m pytest tests
 ```
