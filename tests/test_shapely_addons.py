@@ -546,3 +546,14 @@ def test_geometry_holes_computing_geometrycollection(geometrycollection):
     assert not filled.is_empty
     assert isinstance(catched, MultiPolygon)
     assert not catched.is_empty
+
+
+def test_geom_precisions_point(another_point):
+    geom = core_test().geometry_precision(another_point, 3)
+    print(geom)
+    assert False
+
+def test_geom_precisions_l(linestring):
+    geom = core_test().geometry_precision(linestring, 2)
+    print(geom)
+    assert False

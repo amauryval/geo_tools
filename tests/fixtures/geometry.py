@@ -11,8 +11,9 @@ from shapely.geometry import GeometryCollection
 # raw_data
 wkt_point_a = 'Point (30 10 5)'
 wkt_point_b = 'Point(4 10 3)'
+wkt_point_c = 'Point (30.124544565645 10.4564545324347 5.454545)'
 
-wkt_linestring_a = 'LineString (-0.072 0.85 0, -0.08 0.22 0)'
+wkt_linestring_a = 'LineString (-0.072 0.850 0.000, -0.080 0.220 0.000)'
 wkt_linestring_b = 'LineString (-0.63 0.23 0, -0.08 0.22 0)'
 wkt_linestring_c = 'LineString (-0.08 0.22 0, 0.49 0.23 0)'
 wkt_linestring_d = 'LineString (0.65 0.47 0, 0.49 0.23 0)'
@@ -32,6 +33,9 @@ wkt_multipolygon_with_holes = 'MultiPolygon (((138 134 1, 238 134 2, 238 234 6, 
 def point():
     return wkt_loads(wkt_point_a)
 
+@pytest.fixture
+def another_point():
+    return wkt_loads(wkt_point_c)
 
 @pytest.fixture
 def multipoint():

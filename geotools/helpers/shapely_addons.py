@@ -286,7 +286,31 @@ class ShapelyAddons:
 
         return MultiLineString(new_geometries)
 
-    def geometry_2_bokeh_format(self, geometry, coord_name='xy', input_is_a_point=True):
+    def geometry_precision(self, geometry, precision=2):
+
+        self.__assert_all_geometry_type(geometry)
+
+        new_geometry = []
+        from decimal import Decimal, getcontext
+
+        if isinstance(geometry, Point):
+            print(round(Decimal(geometry.y), precision))
+            new_geometry = Point(
+                Decimal(round(geometry.x, precision)),
+                Decimal(round(geometry.y, precision)),
+            )
+
+        if isinstance(geometry, (LineString, LinearRing)):
+            new_geometry = [
+                self.geometry_precision(Point(feat), precision)
+                for feat in geometry.coords
+            ]
+            print(new_geometry)
+            new_geometry = type(geometry)(new_geometry)
+
+        return new_geometry
+
+    def geometry_2_bokeh_format(self, geometry, coord_name='xy'):
         """
         geometry_2_bokeh_format
         Used for bokeh library
