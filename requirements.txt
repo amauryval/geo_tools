@@ -5,4 +5,4 @@ geopandas
 jupyter
 jsonschema
 pandas
-GDAL==2
+GDAL==1.10.0
