@@ -26,7 +26,7 @@ jobs:
           name: run tests
           command: |
             source geo_tools_env/bin/activate
-            python -m pytest tests
+            python3 -m pytest tests
 
       - store_test_results:
           path: test-results
