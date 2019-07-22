@@ -75,7 +75,7 @@ class DataBaseAddons:
                 if overwrite:
                     print(f'Overwrite is True => Database {database} dropped')
                     drop_database(engine.url)
-                    self.db_init(
+                    self.sql_alchemy_db_init(
                         host,
                         database,
                         username,
@@ -101,4 +101,39 @@ class DataBaseAddons:
 
         return session, engine
 
+    def psycopg2_connection(self, dbname, user, host, password, port=5432):
+        """
 
+        :type dbname: string
+        :type user: string
+        :type host: string
+        :type password: string
+        :type port: int, default 5432
+        :return:
+        """
+        connection = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            host=host,
+            password=password,
+            port=port
+        )
+
+        return connection
+
+    def schema_init(self, engine, schemas):
+        """
+        init_schema
+
+        :param engine:
+        :param schemas: list(str)
+        :return: str
+        """
+
+        for schema in schemas:
+            try:
+                engine.execute(CreateSchema(schema))
+                print(f'Creating {schema} schema')
+
+            except:
+                print(f'Schema {schema} already exists')
