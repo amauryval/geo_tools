@@ -2,6 +2,10 @@
 import psycopg2
 
 from sqlalchemy import create_engine
+from sqlalchemy import MetaData
+from sqlalchemy import select
+from sqlalchemy import func
+from sqlalchemy import Table
 
 from sqlalchemy import exc
 from sqlalchemy_utils import database_exists
@@ -137,3 +141,41 @@ class DataBaseAddons:
 
             except:
                 print(f'Schema {schema} already exists')
+
+    def sql_table_by_name(self, engine, schema, table):
+        """
+        get_sql_table
+
+        :param engine:
+        :type schema: str
+        :type table: str
+        :return:
+        """
+
+        metadata = MetaData(
+            bind=engine,
+            schema=schema
+        )
+
+        try:
+            autoload = True
+            return Table(
+                table,
+                metadata,
+                autoload=autoload,
+                autoload_with=engine
+            )
+
+        except exc.NoSuchTableError as _:
+            return None
+
+    def is_sql_table_filled(self, engine, schema, table):
+        rows_count = engine.execute(
+            select([func.count()]).select_from(
+                self.sql_table_by_name(self, engine, schema, table)
+            )).scalar()
+
+        if rows_count > 0:
+            return True
+
+        return False
