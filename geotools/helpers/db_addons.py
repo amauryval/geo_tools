@@ -20,7 +20,7 @@ class DataBaseAddons:
     Class : DataBaseAddons
     """
 
-    def __sqlalchemy_engine(self, host, database, username, password, port=5432):
+    def _sqlalchemy_engine(self, host, database, username, password, port=5432):
         """
         sql_engine
 
@@ -64,7 +64,7 @@ class DataBaseAddons:
         :return: session, engine
         """
         try:
-            session, engine = self.__sqlalchemy_engine(host, database, username, password, port)
+            session, engine = self._sqlalchemy_engine(host, database, username, password, port)
 
             if verbose:
                 print("Engine OK : {engine}")
@@ -105,19 +105,19 @@ class DataBaseAddons:
 
         return session, engine
 
-    def psycopg2_connection(self, dbname, user, host, password, port=5432):
+    def psycopg2_connection(self, host, database, username, password, port=5432):
         """
 
-        :type dbname: string
-        :type user: string
+        :type database: string
+        :type username: string
         :type host: string
         :type password: string
         :type port: int, default 5432
         :return:
         """
         connection = psycopg2.connect(
-            dbname=dbname,
-            user=user,
+            dbname=database,
+            user=username,
             host=host,
             password=password,
             port=port
@@ -125,22 +125,24 @@ class DataBaseAddons:
 
         return connection
 
-    def schema_init(self, engine, schemas):
+    def schema_init(self, engine, schema):
         """
         init_schema
 
         :param engine:
-        :param schemas: list(str)
+        :param schema: str
         :return: str
         """
+        is_exists = False
+        try:
+            engine.execute(CreateSchema(schema))
+            print(f'Creating {schema} schema')
 
-        for schema in schemas:
-            try:
-                engine.execute(CreateSchema(schema))
-                print(f'Creating {schema} schema')
+        except:
+            print(f'Schema {schema} already exists')
+            is_exists = True
 
-            except:
-                print(f'Schema {schema} already exists')
+        return is_exists
 
     def sql_table_by_name(self, engine, schema, table):
         """
@@ -170,12 +172,17 @@ class DataBaseAddons:
             return None
 
     def is_sql_table_filled(self, engine, schema, table):
-        rows_count = engine.execute(
-            select([func.count()]).select_from(
-                self.sql_table_by_name(self, engine, schema, table)
-            )).scalar()
 
-        if rows_count > 0:
-            return True
+        table_found = self.sql_table_by_name(engine, schema, table)
+        if table_found is not None:
+            rows_count = engine.execute(
+                select([func.count()]).select_from(
+                    table_found
+                )).scalar()
+            print(rows_count)
+            if rows_count > 0:
+                return True
 
-        return False
+            return False
+
+        return None
