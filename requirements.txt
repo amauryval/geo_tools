@@ -5,8 +5,9 @@ geopandas
 jupyter
 jsonschema
 pandas
-GDAL==2.4.0
+GDAL
 psycopg2
 SQLAlchemy
 sqlalchemy-utils
 geolalchemy2
+libgdal
