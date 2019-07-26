@@ -1,37 +1,37 @@
 # Python CircleCI 2.0 configuration file
-#
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.3
+      - image: continuumio/miniconda3
+      - image: circleci/postgres:9.6.12-postgis
 
     working_directory: ~/geo_tools
 
     steps:
       - checkout
-
+      - restore_cache:
+          key: geo_tools_cache-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: install dependencies
           command: |
-            sudo apt-get update && sudo apt-get install -y gdal-bin python-gdal python3-gdal libgdal-dev
-            export CPLUS_INCLUDE_PATH=/usr/include/gdal
-            export C_INCLUDE_PATH=/usr/include/gdal
-            python3 -m venv geo_tools_env
-            source geo_tools_env/bin/activate
-            pip install -r requirements.txt
-
-      # run tests!
+            conda config --set quiet true
+            conda create -y --name geo_tools python==3.6
+            conda config --add channels conda-forge
+            conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
+      - save_cache:
+          key: geo_tools_cache-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "/opt/conda/envs/geo_tools"
       - run:
           name: run tests
           command: |
-            source geo_tools_env/bin/activate
+            source activate geo_tools
             python3 -m pytest tests
-
       - store_test_results:
-          path: test-results
+          path: test-reports/
       - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          path: test-reports/
+          destination: tr1

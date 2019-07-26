@@ -1,25 +1,31 @@
 # geo_tools
 
-A geographic toolbox
+A geographic (and more...) toolbox
 
-## Shapely geometry functions
+## Shapely geometry methods
 
-* remove Z coordinates on your geometry
-* get crossroads, dead ends and section nodes from a MultiLinestring
-* convert your geometry to LineString (only 2 coordinates)
-* convert your geometry to points
+* Remove Z coordinates on your geometry
+* Get crossroads, dead ends and section nodes from a MultiLinestring
+* Convert your geometry to LineString (only 2 coordinates)
+* Convert your geometry to points
 * Drop duplicate geometries
 * Create points along line features by choosing a ratio
 * Cut line features at specifics point
-* convert geometry to bokeh format (use geopandas and apply method)
+* Convert geometry to bokeh format (use geopandas and apply method)
 * Fill holes on Polygon, MultiPolygon, and GeometryCollection
 * Convert (Multi)Polygon holes to MultiPolygons
 * Compute side buffer on LineString and MultiLineString
 
-## Reprojection functions
+## Reprojection methods
 
 * reproject with pyproj
 * reproject with ogr
+
+## Database methods
+* Easy use of SqlAlchemy to connect/create/overwrite on a PostgreSQL database
+* check table (filled or not, existing or not...)
+* ...
+* To be continued !...
 
 ## More soon !
 
@@ -27,8 +33,11 @@ A geographic toolbox
 
 with anaconda3
 ```
-conda env create -f geo_tools_conda_env.yml
-activate geo_tools
+conda config --set quiet true
+conda create -y --name geo_tools python==3.6
+conda config --add channels conda-forge
+conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
+source activate geo_tools
 ```
 
 ## How to use it
@@ -44,9 +53,8 @@ class MyBeautifulClass(GeoTools):
         super().__init__()
     
     def run(self):
-        # call GeoTools functions
+        # call all GeoTools functions
         self.remove_z_geom(my_shapely_geometry)
-
 ```
 
 ## Check examples
