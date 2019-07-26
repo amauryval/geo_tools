@@ -21,7 +21,7 @@ jobs:
             conda config --set always_yes true
             conda config --set quiet true
             conda install conda-build
-            conda env create -f geo_tools_conda_env.yml
+            conda env create -f geo_tools_conda_env.yml python=3.6
 
       # run tests!
       - run:
