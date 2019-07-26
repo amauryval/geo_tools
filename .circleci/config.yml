@@ -12,10 +12,8 @@ jobs:
 
     steps:
       - checkout
-
       - restore_cache:
-          key: geo_tools_cache
-
+          key: geo_tools_cache{{ checksum "requirements.txt" }}
       - run:
           name: install dependencies
           command: |
@@ -23,18 +21,15 @@ jobs:
             conda create -y --name geo_tools python==3.6
             conda config --add channels conda-forge
             conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
-
       - save_cache:
-          key: geo_tools_cache
+          key: geo_tools_cache{{ checksum "requirements.txt" }}
           paths:
             - "/opt/conda/envs/geo_tools"
-
       - run:
           name: run tests
           command: |
             source activate geo_tools
             python3 -m pytest tests
-
       - store_test_results:
           path: test-results
       - store_artifacts:
