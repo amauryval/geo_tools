@@ -20,7 +20,9 @@ jobs:
             conda config --add channels conda-forge
             conda config --set always_yes true
             conda config --set quiet true
-            conda env create -f geo_tools_conda_env.yml python=3.6
+            conda env create -n geo_tools python=3.6
+            activate geo_tools
+            conda install --file requirements.txt
 
       # run tests!
       - run:
