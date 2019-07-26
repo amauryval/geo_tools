@@ -18,10 +18,7 @@ jobs:
           name: install dependencies
           command: |
             conda config --set quiet true
-            conda create -y --name geo_tools python=3.6
-            activate geo_tools
-            conda config --add channels conda-forge
-            conda install -y --file requirements.txt
+            conda install -f -y -q --name geo_tools -c conda-forge --file requirements.txt
 
       # run tests!
       - run:
