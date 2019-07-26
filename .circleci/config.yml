@@ -14,8 +14,8 @@ jobs:
       - checkout
 
       - restore_cache:
-          keys:
-            - geo_tools_cache
+        keys:
+          - geo_tools_cache
 
       - run:
           name: install dependencies
@@ -41,5 +41,3 @@ jobs:
       - store_artifacts:
           path: .gitignore-reports
           destination: .gitignore-reports
-
-    steps:
