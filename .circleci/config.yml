@@ -14,8 +14,8 @@ jobs:
       - checkout
 
       - restore_cache:
-        keys:
-          - geo_tools_cache
+          keys:
+            - geo_tools_cache
 
       - run:
           name: install dependencies
