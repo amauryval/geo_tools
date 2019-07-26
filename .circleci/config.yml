@@ -1,5 +1,4 @@
 # Python CircleCI 2.0 configuration file
-#
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
@@ -14,6 +13,10 @@ jobs:
     steps:
       - checkout
 
+      - restore_cache:
+        keys:
+          - geo_tools_cache
+
       - run:
           name: install dependencies
           command: |
@@ -22,7 +25,11 @@ jobs:
             conda config --add channels conda-forge
             conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
 
-      # run tests!
+      - save_cache:
+          key: geo_tools_cache
+          paths:
+            - "/opt/conda/envs/geo_tools"
+
       - run:
           name: run tests
           command: |
@@ -30,7 +37,9 @@ jobs:
             python3 -m pytest tests
 
       - store_test_results:
-          path: test-results
+          path: .gitignore-results
       - store_artifacts:
-          path: test-reports
-          destination: test-reports
+          path: .gitignore-reports
+          destination: .gitignore-reports
+
+    steps:
