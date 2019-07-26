@@ -18,7 +18,7 @@ jobs:
           name: install dependencies
           command: |
             conda config --set quiet true
-            conda install -f -y -q --name geo_tools -c conda-forge --file requirements.txt
+            conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
 
       # run tests!
       - run:
