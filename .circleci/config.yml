@@ -27,7 +27,7 @@ jobs:
           name: run tests
           command: |
             activate geo_tools
-            python -m pytest tests
+            python3 -m pytest tests
 
       - store_test_results:
           path: test-results
