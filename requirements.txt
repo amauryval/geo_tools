@@ -9,5 +9,5 @@ GDAL
 psycopg2
 SQLAlchemy
 sqlalchemy-utils
-geolalchemy2
+geoalchemy2
 libgdal
