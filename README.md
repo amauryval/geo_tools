@@ -36,7 +36,7 @@ A geographic (and more...) toolbox
 with anaconda3
 ```
 conda config --set quiet true
-conda create -y --name geo_tools python==3.6
+conda create -y --name geo_tools python=3.6
 conda config --add channels conda-forge
 conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
 source activate geo_tools
