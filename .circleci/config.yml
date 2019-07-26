@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: geo_tools_cache{{ checksum "requirements.txt" }}
+          key: geo_tools_cache-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: install dependencies
           command: |
@@ -22,7 +22,7 @@ jobs:
             conda config --add channels conda-forge
             conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
       - save_cache:
-          key: geo_tools_cache{{ checksum "requirements.txt" }}
+          key: geo_tools_cache-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "/opt/conda/envs/geo_tools"
       - run:
