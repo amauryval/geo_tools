@@ -2,6 +2,8 @@
 
 A geographic (and more...) toolbox
 
+*CircleCI tests : [![CircleCI](https://circleci.com/gh/yruama42/geo_tools.svg?style=svg)](https://circleci.com/gh/yruama42/geo_tools)*
+
 ## Shapely geometry methods
 
 * Remove Z coordinates on your geometry
