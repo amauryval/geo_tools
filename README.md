@@ -29,7 +29,12 @@ A geographic (and more...) toolbox
 * ...
 * To be continued !...
 
-## More soon !
+## Pandas and GeoPandas methods
+* Get a (geo)dataframe easily from a db
+* ...
+* To be continued !...
+
+# More soon !
 
 ## Installation
 
