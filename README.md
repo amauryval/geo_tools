@@ -8,14 +8,14 @@ A geographic (and more...) toolbox
 
 * Remove Z coordinates on your geometry
 * Get crossroads, dead ends and section nodes from a MultiLinestring
-* Convert your geometry to LineString (only 2 coordinates)
+* Convert your geometry to LineString
 * Convert your geometry to points
 * Drop duplicate geometries
 * Create points along line features by choosing a ratio
 * Cut line features at specifics point
-* Convert geometry to bokeh format (use geopandas and apply method)
+* Convert geometry to bokeh format
 * Fill holes on Polygon, MultiPolygon, and GeometryCollection
-* Convert (Multi)Polygon holes to MultiPolygons
+* Convert Polygon holes to MultiPolygons
 * Compute side buffer on LineString and MultiLineString
 
 ## Reprojection methods
