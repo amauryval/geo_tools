@@ -48,7 +48,7 @@ class ALittleThing(Base):
 class SqlAlchemySession:
 
     def _prepare_input(self):
-        # TODO add url in var ENV
+        # TODO add credentials tests
         self._use_batch_mode = True
         self._client_encoding = 'utf8'
         self._pool_size = 100
@@ -59,7 +59,10 @@ class SqlAlchemySession:
         host = 'localhost'
         port = 5432
         database = 'geo_tools_tests'
+        self._extensions = ['Postgis', 'btree_gist']
         self._url_postgres = f'postgresql://{username}:{password}@{host}:{port}/{database}'
+
+        return host, database, username, password, port, self._extensions
 
     def _create_db(self):
         self._engine = create_engine(
@@ -73,8 +76,8 @@ class SqlAlchemySession:
         create_database(self._engine.url)
 
         # extensions
-        self._engine.execute('create extension Postgis')
-        self._engine.execute('create extension btree_gist')
+        for extension in self._extensions:
+            self._engine.execute(f'create extension {extension}')
 
     def _fill_db(self):
 
