@@ -38,7 +38,7 @@ with anaconda3
 conda create -y --name geo_tools python=3.6
 source activate geo_tools
 conda config --add channels conda-forge
-conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
+conda install -y -q --name geo_tools --file requirements.txt
 ```
 
 ## How to use it
