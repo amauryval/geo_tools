@@ -33,7 +33,14 @@ A geographic (and more...) toolbox
 
 ## Installation
 
-with anaconda3
+On debian, install geospatial dependencies
+```
+sudo apt-get install binutils libproj-dev gdal-bin libgdal-dev
+pip install -r requirements.txt
+```
+ 
+
+or with anaconda3
 ```
 conda create -y --name geo_tools python=3.6
 source activate geo_tools
