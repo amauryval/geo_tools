@@ -56,7 +56,7 @@ class MyBeautifulClass(GeoTools):
     
     def run(self):
         # call all GeoTools functions
-        self.remove_z_geom(my_shapely_geometry)
+        self.logger.info('Hello')
 ```
 
 ## Check examples
