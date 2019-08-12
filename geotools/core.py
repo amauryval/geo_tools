@@ -29,5 +29,3 @@ class GeoTools(
         """
         super(GeoTools, self).__init__(logger_dir=logger_dir, *args, **kwargs)
 
-        #_threads_number params
-
