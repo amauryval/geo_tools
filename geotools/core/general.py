@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from geotools.core.logger_addons import LoggerAddons
+from .logger_addons import LoggerAddons
 
 class GeoToolsCore(LoggerAddons):
 
