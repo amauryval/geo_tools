@@ -10,13 +10,15 @@ from .helpers.shapely_addons import ShapelyAddons
 from .helpers.reprojection_addons import ReprojectionAddons
 from .helpers.db_addons import DataBaseAddons
 from .helpers.logger_addons import LoggerAddons
+from .helpers.perfomance_addons import PerformanceAddons
 
 
 class GeoTools(
     ShapelyAddons,
     ReprojectionAddons,
     DataBaseAddons,
-    LoggerAddons
+    LoggerAddons,
+    PerformanceAddons
 ):
     __version__ = '0.2'
 
