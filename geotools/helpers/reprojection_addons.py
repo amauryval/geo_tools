@@ -5,7 +5,7 @@ from functools import partial
 from osgeo import ogr
 from osgeo import osr
 from shapely.wkt import loads
-from ..core.core import GeoToolsCore
+from ..core.general import GeoToolsCore
 
 
 class ReprojectionAddons(GeoToolsCore):

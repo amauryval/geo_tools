@@ -14,7 +14,7 @@ from sqlalchemy_utils import drop_database
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
 
-from ..core.core import GeoToolsCore
+from ..core.general import GeoToolsCore
 
 
 class DataBaseAddons(GeoToolsCore):
