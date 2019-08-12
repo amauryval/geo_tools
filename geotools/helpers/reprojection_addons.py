@@ -5,18 +5,21 @@ from functools import partial
 from osgeo import ogr
 from osgeo import osr
 from shapely.wkt import loads
+from ..core.core import GeoToolsCore
 
 
-class ReprojectionAddons:
+class ReprojectionAddons(GeoToolsCore):
     """
     Class : ReprojectionAddons
     """
 
-    @staticmethod
-    def is_from_and_to_epsg_are_equals(from_epsg, to_epsg):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def is_from_and_to_epsg_are_equals(self, from_epsg, to_epsg):
 
         if from_epsg == to_epsg:
-            print(f'from_epsg{from_epsg} and to_epsg{to_epsg} are equals: reprojection aborted!')
+            self.info(f'from_epsg{from_epsg} and to_epsg{to_epsg} are equals: reprojection aborted!')
             return True
 
         return False

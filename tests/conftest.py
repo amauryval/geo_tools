@@ -3,7 +3,7 @@ import pytest
 from fixtures.geometry import *
 from fixtures.db import *
 
-from geotools.core import GeoTools
+from geotools.geotools import GeoTools
 
 
 #######################################

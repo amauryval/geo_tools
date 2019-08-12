@@ -79,10 +79,6 @@ class LoggerAddons:
 
         return logger_init
 
-    ############################################################################
-    # logger methods
-    ############################################################################
-
     def info(self, message):
         return self.logger.info(f'{message.upper()}')
 

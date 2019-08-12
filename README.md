@@ -47,16 +47,15 @@ conda install -y -q --name geo_tools --file requirements.txt
 In your script.py:
 
 ```python
-from geotools.core import GeoTools
+from geotools.geotools import GeoTools
 
 class MyBeautifulClass(GeoTools):
+    def __init__(self, logger_dir=None):
+        super().__init__(logger_dir=logger_dir)
 
-    def __init__(self):
-        super().__init__()
-    
     def run(self):
         # call all GeoTools functions
-        self.logger.info('Hello')
+        self.info('Hello')
 ```
 
 ## Check examples

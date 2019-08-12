@@ -14,11 +14,15 @@ from sqlalchemy_utils import drop_database
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
 
+from ..core.core import GeoToolsCore
 
-class DataBaseAddons:
+
+class DataBaseAddons(GeoToolsCore):
     """
     Class : DataBaseAddons
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def _sqlalchemy_engine(self, host, database, username, password, port=5432):
         """
@@ -67,17 +71,17 @@ class DataBaseAddons:
             session, engine = self._sqlalchemy_engine(host, database, username, password, port)
 
             if verbose:
-                print("Engine OK : {engine}")
+                self.info("Engine OK : {engine}")
 
         except Exception as ex:
-            print(f"{type(ex).__name__}: Engine NOK (Arguments: {ex.args})")
+            self.warning(f"{type(ex).__name__}: Engine NOK (Arguments: {ex.args})")
             raise ex
 
         try:
             if database_exists(engine.url):
-                print(f'Database {database} exists')
+                self.warning(f'Database {database} exists')
                 if overwrite:
-                    print(f'Overwrite is True => Database {database} dropped')
+                    self.warning(f'Overwrite is True => Database {database} dropped')
                     drop_database(engine.url)
                     self.sql_alchemy_db_init(
                         host,
@@ -91,17 +95,17 @@ class DataBaseAddons:
                     )
 
             else:
-                print(f'Database : {database} created!')
+                self.info(f'Database : {database} created!')
                 create_database(engine.url)
 
                 for extension in extensions:
                     try:
                         engine.execute('create extension %s' % extension)
                     except Exception as err:
-                        print(f"{type(err).__name__}: extensions declaration error (args: {err.args})")
+                        self.warning(f"{type(err).__name__}: extensions declaration error (args: {err.args})")
 
         except exc.OperationalError as ex:
-            print(f'Oops default db postgres does not exists : {ex}')
+            self.warning(f'Oops default db postgres does not exists : {ex}')
 
         return session, engine
 
@@ -136,10 +140,10 @@ class DataBaseAddons:
         is_exists = False
         try:
             engine.execute(CreateSchema(schema))
-            print(f'Creating {schema} schema')
+            self.info(f'Creating {schema} schema')
 
         except:
-            print(f'Schema {schema} already exists')
+            self.info(f'Schema {schema} already exists')
             is_exists = True
 
         return is_exists

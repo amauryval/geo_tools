@@ -1,4 +1,4 @@
-from geotools.core import GeoTools
+from geotools.geotools import GeoTools
 
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource

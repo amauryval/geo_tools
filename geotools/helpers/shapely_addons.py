@@ -20,15 +20,23 @@ from collections import Counter
 
 from collections import OrderedDict
 
+from ..core.core import GeoToolsCore
+
 
 class GeometryTypeError(Exception):
     pass
 
 
-class ShapelyAddons:
+class ShapelyAddons(GeoToolsCore):
     """
     Class : ShapelyAddons
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def test2(self):
+        self.logger.info("coucou2")
 
     @staticmethod
     def __check_empty_geom(geometry):

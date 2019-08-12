@@ -4,19 +4,15 @@ GeoTools Core
 
 """
 
-from concurrent.futures import ThreadPoolExecutor
-
+from .helpers.db_addons import DataBaseAddons
 from .helpers.shapely_addons import ShapelyAddons
 from .helpers.reprojection_addons import ReprojectionAddons
-from .helpers.db_addons import DataBaseAddons
-from .helpers.logger_addons import LoggerAddons
 
 
 class GeoTools(
     ShapelyAddons,
     ReprojectionAddons,
     DataBaseAddons,
-    LoggerAddons
 ):
     __version__ = '0.2'
 
@@ -27,5 +23,5 @@ class GeoTools(
         :param logger_dir: to create directory log output
         :type logger_dir: str
         """
-        super(GeoTools, self).__init__(logger_dir=logger_dir, *args, **kwargs)
-
+        super().__init__(logger_dir=logger_dir, *args, **kwargs)
+        print('a')
