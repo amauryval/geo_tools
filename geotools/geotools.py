@@ -16,11 +16,11 @@ class GeoTools(
 ):
     __version__ = '0.2'
 
-    def __init__(self, logger_dir=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Main Constructor
 
         :param logger_dir: to create directory log output
         :type logger_dir: str
         """
-        super().__init__(logger_dir=logger_dir, *args, **kwargs)
+        super().__init__(*args, **kwargs)

@@ -11,19 +11,19 @@ class LoggerAddons:
     """
     _log_dir = 'logs'
     _formatter = logging.Formatter(
-        '%(asctime)s - %(name)-13s - %(levelname)-8s : %(message)s',
+        '%(asctime)s - %(name)-15s - %(levelname)-8s : %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     _log_date_file_format = datetime.datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
     _percent_step = 5
 
-    def __init__(self, logger_name=None, logger_level='info', logger_dir=None, raise_error=False):
+    def __init__(self, logger_level='info', logger_dir=None, raise_error=False):
         """
         Main Constructor
 
         """
-        self._logger_name = logger_name if logger_name else self.__class__.__name__
+        self._logger_name = self.__class__.__name__
 
         self.logger = self._create_logger(
             logger_level,
@@ -63,16 +63,13 @@ class LoggerAddons:
             logger_init.addHandler(handler)
 
             if logger_dir is not None:
-                try:
-                    os.stat(self._log_dir)
-                except:
-                    os.mkdir(self._log_dir)
-                try:
-                    os.stat(f'{self._log_dir}{os.path.dirname(logger_dir)}')
-                except:
-                    os.mkdir(f'{self._log_dir}{os.path.dirname(logger_dir)}')
+                log_path = f'{self._log_dir}_{self._log_date_file_format}'
+                complete_log_path = f'{log_path}{os.path.dirname(logger_dir)}'
 
-                handler_file = logging.FileHandler(f'{self._log_dir}{logger_dir}_{self._log_date_file_format}.txt')
+                if not os.path.isdir(complete_log_path):
+                    os.makedirs(complete_log_path)
+
+                handler_file = logging.FileHandler(f'{log_path}{logger_dir}.txt')
                 handler_file.setLevel(levels[logger_level] if logger_level in levels else logging.DEBUG)
                 handler_file.setFormatter(self._formatter)
                 logger_init.addHandler(handler_file)
@@ -87,6 +84,9 @@ class LoggerAddons:
 
     def warning(self, message):
         return self.logger.warning(f'{message.title()}')
+
+    def info_title(self, message):
+        return self.logger.info(f'-== {message.title()} ==-')
     #
     #   Logger methods
     #########################################
