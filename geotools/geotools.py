@@ -24,4 +24,3 @@ class GeoTools(
         :type logger_dir: str
         """
         super().__init__(logger_dir=logger_dir, *args, **kwargs)
-        print('a')

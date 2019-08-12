@@ -7,4 +7,3 @@ class GeoToolsCore(LoggerAddons):
 
     def __init__(self, logger_dir):
         super().__init__(logger_dir=logger_dir)
-

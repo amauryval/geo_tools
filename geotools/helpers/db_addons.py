@@ -71,10 +71,10 @@ class DataBaseAddons(GeoToolsCore):
             session, engine = self._sqlalchemy_engine(host, database, username, password, port)
 
             if verbose:
-                self.info("Engine OK : {engine}")
+                self.info(f'Engine OK : {engine}')
 
         except Exception as ex:
-            self.warning(f"{type(ex).__name__}: Engine NOK (Arguments: {ex.args})")
+            self.warning(f'{type(ex).__name__}: Engine NOK (Arguments: {ex.args})')
             raise ex
 
         try:

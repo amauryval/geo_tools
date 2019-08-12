@@ -9,7 +9,7 @@ class LoggerAddons:
     """
     Class : LoggerAddons
     """
-
+    _log_dir = 'logs'
     _formatter = logging.Formatter(
         '%(asctime)s - %(name)-13s - %(levelname)-8s : %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
@@ -24,7 +24,7 @@ class LoggerAddons:
 
         """
         self._logger_name = logger_name if logger_name else self.__class__.__name__
-        print(logger_dir, self.__class__.__name__)
+
         self.logger = self._create_logger(
             logger_level,
             f'/{logger_dir}/{self.__class__.__name__}' if logger_dir is not None else None
@@ -64,23 +64,29 @@ class LoggerAddons:
 
             if logger_dir is not None:
                 try:
-                    os.stat('logs')
+                    os.stat(self._log_dir)
                 except:
-                    os.mkdir('logs')
+                    os.mkdir(self._log_dir)
                 try:
-                    os.stat(f'logs{os.path.dirname(logger_dir)}')
+                    os.stat(f'{self._log_dir}{os.path.dirname(logger_dir)}')
                 except:
-                    os.mkdir(f'logs{os.path.dirname(logger_dir)}')
+                    os.mkdir(f'{self._log_dir}{os.path.dirname(logger_dir)}')
 
-                handler_file = logging.FileHandler(f'logs{logger_dir}_{self._log_date_file_format}.txt')
+                handler_file = logging.FileHandler(f'{self._log_dir}{logger_dir}_{self._log_date_file_format}.txt')
                 handler_file.setLevel(levels[logger_level] if logger_level in levels else logging.DEBUG)
                 handler_file.setFormatter(self._formatter)
                 logger_init.addHandler(handler_file)
 
         return logger_init
 
+    #########################################
+    #   Logger methods
+    #
     def info(self, message):
-        return self.logger.info(f'{message.upper()}')
+        return self.logger.info(f'{message.title()}')
 
     def warning(self, message):
-        return self.logger.warning(f'{message.upper()}')
+        return self.logger.warning(f'{message.title()}')
+    #
+    #   Logger methods
+    #########################################
