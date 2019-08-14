@@ -60,7 +60,6 @@ def test_get_not_existing_sql_table(schema_name_existing, table_name_not_existin
 def test_get_existing_sql_table_is_filled(schema_name_existing, table_name_existing):
     host, database, username, password, port, extensions = get_url_db()
     _, sql_alchemy_engine = core_test().sql_alchemy_db_init(host, database, username, password, port, extensions, overwrite=False, verbose=False)
-    print(sql_alchemy_engine)
     is_filled = core_test().is_sql_table_filled(sql_alchemy_engine, schema_name_existing, table_name_existing)
     assert is_filled == True
 
