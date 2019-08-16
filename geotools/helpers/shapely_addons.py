@@ -32,11 +32,8 @@ class ShapelyAddons(GeoToolsCore):
     Class : ShapelyAddons
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def test2(self):
-        self.logger.info("coucou2")
+    def __init__(self):
+        super().__init__()
 
     @staticmethod
     def __check_empty_geom(geometry):

@@ -10,8 +10,8 @@ from geotools.geotools import GeoTools
 # CLASS FOR TEST
 class GeoLibTestInstance(GeoTools):
 
-    def __init__(self, logger_dir=None):
-        super().__init__(logger_dir=None)
+    def __init__(self):
+        super().__init__()
 
 
 def pytest_sessionstart():

@@ -18,20 +18,26 @@ class LoggerAddons:
 
     _percent_step = 5
 
-    def __init__(self, logger_level='info', logger_dir=None, raise_error=False):
+    def __init__(self, parent=None, logger_name=None, logger_level='info', logger_dir=None, raise_error=False):
         """
         Main Constructor
 
         """
-        self._logger_name = self.__class__.__name__
+        if not parent:
+            self._logger_name = logger_name if logger_name else self.__class__.__name__
 
-        self.logger = self._create_logger(
-            logger_level,
-            f'/{logger_dir}/{self.__class__.__name__}' if logger_dir is not None else None
-        )
-        self.raise_error = raise_error
-        self.progress_value = self._percent_step
-        self.step_log_progress = self._percent_step
+            self.logger = self._create_logger(
+                logger_level,
+                f'/{logger_dir}/{self.__class__.__name__}' if logger_dir is not None else None
+            )
+            self.raise_error = raise_error
+            self.init_log_progress()
+        else:
+            self.logger_name = parent.logger_name
+            self.logger = parent.logger
+            self.raise_error = parent.raise_error
+            self.progress_value = parent.progress_value
+            self.step_log_progress = parent.step_log_progress
 
     def _create_logger(self, logger_level, logger_dir):
         """
@@ -75,6 +81,24 @@ class LoggerAddons:
                 logger_init.addHandler(handler_file)
 
         return logger_init
+
+    def init_log_progress(self, step_percent=5):
+
+        self.progress_value = step_percent
+        self.step_log_progress = step_percent
+
+    def log_progress(self, percentage, message="Progress : %s %%"):
+
+        if percentage == 0.0:
+            self.logger.info(message, 0)
+
+        elif percentage >= self.progress_value:
+            self.logger.info(message, self.progress_value)
+            self.progress_value += self.step_log_progress
+
+        elif percentage == 100.0:
+            self.logger.info(message, self.progress_value)
+            self.logger.info(message % self.progress_value)
 
     #########################################
     #   Logger methods

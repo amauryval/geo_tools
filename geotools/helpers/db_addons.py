@@ -21,8 +21,8 @@ class DataBaseAddons(GeoToolsCore):
     """
     Class : DataBaseAddons
     """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
 
     def _sqlalchemy_engine(self, host, database, username, password, port=5432):
         """

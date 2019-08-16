@@ -13,8 +13,8 @@ class ReprojectionAddons(GeoToolsCore):
     Class : ReprojectionAddons
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
 
     def is_from_and_to_epsg_are_equals(self, from_epsg, to_epsg):
 
