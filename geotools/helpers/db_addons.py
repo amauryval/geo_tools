@@ -2,7 +2,6 @@
 import psycopg2
 
 from sqlalchemy import create_engine
-from sqlalchemy import MetaData
 from sqlalchemy import select
 from sqlalchemy import func
 from sqlalchemy import Table
@@ -14,7 +13,7 @@ from sqlalchemy_utils import drop_database
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
 
-from ..core.general import GeoToolsCore
+from ..core.geotoolscore import GeoToolsCore
 
 
 class DataBaseAddons(GeoToolsCore):
@@ -148,6 +147,8 @@ class DataBaseAddons(GeoToolsCore):
 
         return is_exists
 
+
+
     def sql_table_by_name(self, engine, schema, table):
         """
         get_sql_table
@@ -158,10 +159,7 @@ class DataBaseAddons(GeoToolsCore):
         :return:
         """
 
-        metadata = MetaData(
-            bind=engine,
-            schema=schema
-        )
+        metadata = self.__get_metadata(engine, schema)
 
         try:
             autoload = True

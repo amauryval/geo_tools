@@ -20,7 +20,7 @@ from collections import Counter
 
 from collections import OrderedDict
 
-from ..core.general import GeoToolsCore
+from ..core.geotoolscore import GeoToolsCore
 
 
 class GeometryTypeError(Exception):

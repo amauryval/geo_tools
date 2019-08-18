@@ -1,4 +1,4 @@
-from ..core.general import GeoToolsCore
+from ..core.geotoolscore import GeoToolsCore
 
 from concurrent.futures import ThreadPoolExecutor
 

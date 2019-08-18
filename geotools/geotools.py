@@ -8,13 +8,15 @@ from .helpers.db_addons import DataBaseAddons
 from .helpers.shapely_addons import ShapelyAddons
 from .helpers.reprojection_addons import ReprojectionAddons
 from .helpers.optimization_addons import OptimizationAddons
+from .helpers.pandas_addons import PandasAddons
 
 
 class GeoTools(
     ShapelyAddons,
     ReprojectionAddons,
     DataBaseAddons,
-    OptimizationAddons
+    OptimizationAddons,
+    PandasAddons
 ):
     __version__ = '0.2'
 
