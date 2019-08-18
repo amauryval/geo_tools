@@ -79,7 +79,7 @@ class PandasAddons(GeoToolsCore):
             polygon_bounds = polygon.bounds
 
         if fields_to_keep is None:
-            fields_to_keep = [slice(None)]
+            fields_to_keep = (slice(None))
 
         geodataframe = pd.concat([
             gpd.read_file(file_path, bbox=polygon_bounds)[fields_to_keep]
