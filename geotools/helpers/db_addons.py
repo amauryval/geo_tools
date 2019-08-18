@@ -5,8 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy import select
 from sqlalchemy import func
 from sqlalchemy import Table
-
+from sqlalchemy import MetaData
 from sqlalchemy import exc
+
 from sqlalchemy_utils import database_exists
 from sqlalchemy_utils import create_database
 from sqlalchemy_utils import drop_database
@@ -53,6 +54,15 @@ class DataBaseAddons(GeoToolsCore):
         session = sessionmaker(engine)
 
         return session(), engine
+
+    def __get_metadata(self, engine, schema):
+
+        metadata = MetaData(
+            bind=engine,
+            schema=schema
+        )
+        self.info("Get meta schema %s" % (metadata))
+        return metadata
 
     def sql_alchemy_db_init(self, host, database, username, password, port, extensions, overwrite=False, verbose=False):
         """
