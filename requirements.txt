@@ -1,3 +1,4 @@
+pytest==4.5.0
 geopandas==0.5.1
 jupyter
 jsonschema==3.0.2
@@ -6,5 +7,6 @@ geoalchemy2==0.6.3
 libgdal==2.4.2
 bokeh
 pypandoc
-sqlalchemy-utils
+sqlalchemy-utils==0.3
 descartes
+
