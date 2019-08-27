@@ -37,5 +37,6 @@ jobs:
         conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
     - name: Test with pytest
       run: |
+        conda init bash
         conda activate geo_tools
         python -m pytest tests
