@@ -17,14 +17,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
+    - name: Install Postgres/GIS
+      run: |
+        sudo apt install postgresql-10 --yes
+        sudo apt install postgresql-10-postgis-2.4 --yes
     - name: Install Miniconda3
       run: |
-        sudo apt update --yes
-        sudo apt upgrade --yes
+        # sudo apt update --yes
+        # sudo apt upgrade --yes
         wget https://repo.continuum.io/miniconda/Miniconda3-4.7.10-Linux-x86_64.sh -O ~/miniconda.sh
         bash ~/miniconda.sh -b -p ~/miniconda 
         rm ~/miniconda.sh
@@ -36,5 +36,5 @@ jobs:
         conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
     - name: Test with pytest
       run: |
-        source activate geo_tools
+        activate geo_tools
         python3 -m pytest tests
