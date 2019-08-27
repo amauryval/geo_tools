@@ -25,17 +25,18 @@ jobs:
       run: |
         # sudo apt update --yes
         # sudo apt upgrade --yes
-        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-        chmod +x Miniconda3-latest-Linux-x86_64.sh
-        ./Miniconda3-latest-Linux-x86_64.sh -b -p ~/miniconda
-        export PATH=~/miniconda/bin:$PATH
+        # wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        # chmod +x Miniconda3-latest-Linux-x86_64.sh
+        # ./Miniconda3-latest-Linux-x86_64.sh -b -p ~/miniconda
+        # export PATH=~/miniconda/bin:$PATH
+        pip install -r requirements.txt
     - name: Prepare conda env
       run: |
-        conda config --set quiet true
+        # conda config --set quiet true
         # conda create -y --name geo_tools python=3.6
-        conda config --add channels conda-forge
+        # conda config --add channels conda-forge
         # conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
-        conda install -y -q -c conda-forge --file requirements.txt
+        # conda install -y -q -c conda-forge --file requirements.txt
     - name: Test with pytest
       run: |
         # conda init bash
