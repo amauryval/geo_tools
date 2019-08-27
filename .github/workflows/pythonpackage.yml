@@ -35,7 +35,7 @@ jobs:
         conda config --add channels conda-forge
         conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
 
-- name: Test with pytest
-      run: |
-        source activate geo_tools
-        python3 -m pytest tests
+    - name: Test with pytest
+          run: |
+            source activate geo_tools
+            python3 -m pytest tests
