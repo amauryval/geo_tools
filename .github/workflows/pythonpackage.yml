@@ -1,0 +1,41 @@
+name: Python package
+
+on:
+  push:
+    branches:
+    - master
+    - dev
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.6]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Miniconda3
+      run: |
+        sudo apt update --yes
+        sudo apt upgrade --yes
+        wget https://repo.continuum.io/miniconda/Miniconda3-4.7.10-Linux-x86_64.sh -O ~/miniconda.sh
+        bash ~/miniconda.sh -b -p ~/miniconda 
+        rm ~/miniconda.sh
+    - name: Lint with flake8
+      run: |
+        conda config --set quiet true
+        conda create -y --name geo_tools python=3.6
+        conda config --add channels conda-forge
+        conda install -y -q --name geo_tools -c conda-forge --file requirements.txt
+
+- name: Test with pytest
+      run: |
+        source activate geo_tools
+        python3 -m pytest tests
