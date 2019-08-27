@@ -35,7 +35,16 @@ jobs:
         # chmod +x Miniconda3-latest-Linux-x86_64.sh
         # ./Miniconda3-latest-Linux-x86_64.sh -b -p ~/miniconda
         # export PATH=~/miniconda/bin:$PATH
-        pip install -r requirements.txt
+        pip install pytest==4.5.0
+        pip install geopandas==0.5.1
+        pip install jupyter
+        pip install jsonschema==3.0.2
+        pip install psycopg2==2.8.3
+        pip install geoalchemy2==0.6.3
+        pip install bokeh
+        pip install pypandoc
+        pip install sqlalchemy-utils
+descartes
     - name: Prepare conda env
       run: |
         # conda config --set quiet true
