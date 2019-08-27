@@ -44,7 +44,7 @@ jobs:
         pip install bokeh
         pip install pypandoc
         pip install sqlalchemy-utils
-descartes
+        pip install descartes
     - name: Prepare conda env
       run: |
         # conda config --set quiet true
