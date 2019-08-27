@@ -22,7 +22,7 @@ jobs:
         sudo add-apt-repository -y ppa:ubuntugis/ppa
         sudo apt-get update --yes
         sudo apt-get upgrade --yes
-        sudo apt-get build-de --yes
+        # sudo apt-get build-de --yes
         sudo apt install gdal-bin python-gdal python3-gdal --yes
         sudo apt install postgresql-10 --yes
         sudo apt install postgresql-10-postgis-2.4 --yes
