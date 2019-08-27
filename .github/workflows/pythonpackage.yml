@@ -40,4 +40,4 @@ jobs:
       run: |
         # conda init bash
         # conda activate geo_tools
-        python -m pytest tests
+        python3 -m pytest tests
