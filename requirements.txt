@@ -4,7 +4,7 @@ SQLAlchemy_Utils==0.34.1
 geopandas==0.6.3
 xlrd==1.2.0
 GDAL==3.0.2
-numpy==1.18.1
+numpy==1.22.0
 pytest==5.3.5
 pyproj==2.4.2.post1
 psycopg2==2.8.4
